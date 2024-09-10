@@ -1,0 +1,40 @@
+package org.nagul;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.nagul.entity.Students;
+
+public class StudentAppUpdate {
+
+	public static void main(String[] args) {
+		
+		SessionFactory factory=new Configuration()
+				.configure("hibernate.cfg.xml")
+				.addAnnotatedClass(Students.class)
+				.buildSessionFactory();
+		
+		Session session=factory.getCurrentSession();
+		
+		try {
+			
+			Students stu=new Students();
+			
+			session.beginTransaction();
+			
+			stu=session.get(Students.class, 3);
+			stu.setDepartment("Computer Science");
+			
+			session.getTransaction().commit();
+			System.out.println("Row Updated");
+		}
+		finally {
+			
+			session.close();
+			factory.close();
+		}
+		
+
+	}
+
+}
